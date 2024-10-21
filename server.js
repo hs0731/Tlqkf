@@ -1,32 +1,28 @@
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-//const port = process.env.PORT || 3000;
-const port = process.env.PORT || 10000;
+const PORT = process.env.PORT || 10000;
 
-app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static('public')); // 정적 파일을 제공하기 위한 설정
 
-// 기본 경로
 app.get('/', (req, res) => {
-    res.send('AGV Route Guide Server is running');
+    res.sendFile(__dirname + '/public/index.html'); // HTML 파일 제공
 });
 
-// 경로 설정 API
-app.post('/set-route', (req, res) => {
-    const { userLocation, destination } = req.body;
-    // 여기에 경로 처리 로직 추가
-    console.log(`User Location: ${userLocation}, Destination: ${destination}`);
-    res.json({ message: 'Route set successfully' });
-    // ESP32에 위치 정보 전송 로직 추가
-
-    const { button } = req.body;
-    console.log(button); // 버튼 눌림 메시지 출력
-    res.json({ message: '응답을 성공적으로 수신했습니다.' });
+app.post('/button-a', (req, res) => {
+    console.log('A 버튼이 눌렸습니다.');
+    // ESP32로 A 버튼 눌림을 알리는 코드 추가
+    res.json({ message: 'A 버튼이 눌렸습니다.' });
 });
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+app.post('/button-b', (req, res) => {
+    console.log('B 버튼이 눌렸습니다.');
+    // ESP32로 B 버튼 눌림을 알리는 코드 추가
+    res.json({ message: 'B 버튼이 눌렸습니다.' });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
