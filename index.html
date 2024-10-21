@@ -3,54 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGV Route Guide</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <h1>AGV Route Guide</h1>
-    <button id="buttonA">버튼 A</button>
-    <button id="buttonB">버튼 B</button>
-
+    <title>Button Interface</title>
     <script>
-        async function sendRequest(button) {
-            const response = await fetch('https://tlqkf-tsq3.onrender.com/set-route', {
+        async function sendButtonPress(button) {
+            const response = await fetch('http://<ESP32_IP_ADDRESS>/button-response', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    userLocation: button === 'A' ? '버튼 A' : '버튼 B',
-                    destination: button === 'A' ? '버튼 A가 눌렸습니다.' : '버튼 B가 눌렸습니다.'
-                })
+                body: JSON.stringify({ button: button }),
             });
-
             const data = await response.json();
             console.log(data.message); // 서버 응답 메시지 출력
         }
-
-        document.getElementById('buttonA').addEventListener('click', () => {
-            sendRequest('A');
-        });
-
-        document.getElementById('buttonB').addEventListener('click', () => {
-            sendRequest('B');
-        });
     </script>
+</head>
+<body>
+    <button onclick="sendButtonPress('A')">버튼 A</button>
+    <button onclick="sendButtonPress('B')">버튼 B</button>
 </body>
 </html>
