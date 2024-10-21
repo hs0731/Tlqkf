@@ -3,24 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGV Route Guide</title>
+    <title>ESP32 Communication</title>
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>AGV Route Guide</h1>
-    <button onclick="sendButton('button-a')">Button A</button>
-    <button onclick="sendButton('button-b')">Button B</button>
-
-    <script>
-        function sendButton(button) {
-            fetch(`/${button}`, {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message); // 서버로부터의 응답을 콘솔에 출력
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    </script>
+    <h1>ESP32 Button Control</h1>
+    <button id="button-a">A 버튼</button>
+    <button id="button-b">B 버튼</button>
+    <div id="response"></div>
 </body>
 </html>
